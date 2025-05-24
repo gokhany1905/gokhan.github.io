@@ -62,11 +62,11 @@
 
     .full-screen-yes {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: #4CAF50;
+      top: 2.5vh;
+      left: 2.5vw;
+      width: 95vw;
+      height: 95vh;
+      background-color: #ffc0cb;
       color: white;
       font-size: 4rem;
       display: flex;
@@ -74,6 +74,18 @@
       align-items: center;
       flex-direction: column;
       z-index: 999;
+      border-radius: 20px;
+    }
+
+    .final-button {
+      width: 95vw;
+      height: 95vh;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 3rem;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -85,47 +97,50 @@
     <button id="noBtn">yoooo</button>
   </div>
 
-  <!-- Ses dosyaları -->
-  <audio id="noSound" src="https://www.myinstants.com/media/sounds/no-no-no.mp3"></audio>
-  <audio id="yesSound" src="https://www.myinstants.com/media/sounds/yeah-boy.mp3"></audio>
-
   <script>
     const yesBtn = document.getElementById('yesBtn');
     const noBtn = document.getElementById('noBtn');
-    const noSound = document.getElementById('noSound');
-    const yesSound = document.getElementById('yesSound');
     let clickCount = 0;
 
     noBtn.addEventListener('click', () => {
-      noSound.play();
-
       clickCount++;
       const scale = 1 + clickCount * 0.2;
       yesBtn.style.transform = `scale(${scale})`;
 
-      const padding = 50;
-      const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-      const maxY = window.innerHeight / 2 - noBtn.offsetHeight - padding;
-      const randX = Math.floor(Math.random() * maxX);
-      const randY = Math.floor(Math.random() * maxY);
-      noBtn.style.left = `${randX}px`;
-      noBtn.style.top = `${randY}px`;
+      const offsetY = Math.floor(Math.random() * 40) - 20; // yukarı-aşağı küçük oynamalar
+      noBtn.style.left = `50%`;
+      noBtn.style.transform = `translateX(-50%) translateY(${offsetY}px)`;
 
       if (clickCount >= 6) {
-        yesBtn.click();
+        document.body.innerHTML = `
+          <button class="final-button" id="finalYesBtn">olurrr</button>
+        `;
+        document.getElementById('finalYesBtn').addEventListener('click', () => {
+          document.body.innerHTML = `
+            <div class="full-screen-yes">
+              olllleeey 🎉<br />
+              <img src="https://media.giphy.com/media/111ebonMs90YLu/giphy.gif" alt="Mutlu gif" class="gif" />
+              <audio autoplay>
+                <source src="https://freesound.org/data/previews/269/269214_5121236-lq.mp3" type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          `;
+        });
       }
     });
 
     yesBtn.addEventListener('click', () => {
-      yesSound.play();
-      setTimeout(() => {
-        document.body.innerHTML = `
-          <div class="full-screen-yes">
-            olllleeey 🎉<br />
-            <img src="https://media.giphy.com/media/111ebonMs90YLu/giphy.gif" alt="Mutlu gif" class="gif" />
-          </div>
-        `;
-      }, 500); // sesi oynattıktan sonra biraz beklet
+      document.body.innerHTML = `
+        <div class="full-screen-yes">
+          olllleeey 🎉<br />
+          <img src="https://media.giphy.com/media/111ebonMs90YLu/giphy.gif" alt="Mutlu gif" class="gif" />
+          <audio autoplay>
+            <source src="https://freesound.org/data/previews/269/269214_5121236-lq.mp3" type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+      `;
     });
   </script>
 </body>
